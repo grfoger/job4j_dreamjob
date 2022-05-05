@@ -20,7 +20,7 @@
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Работа мечты</a>
+        <a class="navbar-brand" href="#">Dream Job, <small th:text="${user}"></small></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -34,17 +34,17 @@
             </div>
         </div>
     </nav>
-    <div class="row">
+    <div class="row pt-3">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Новый кандидат.
+                Редатирование вакансии вакансия.
             </div>
             <div class="card-body">
-                <form>
+                <form th:action="@{/updatePost}" method="POST" th:object="${post}">
+                    <input type="hidden" name="id" th:field="*{id}"/>
                     <div class="form-group">
-                        <label>Имя
-                            <input type="text" class="form-control">
-                        </label>
+                        <label for="name">Имя</label>
+                        <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
