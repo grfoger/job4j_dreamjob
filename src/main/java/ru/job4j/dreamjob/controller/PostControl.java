@@ -30,8 +30,8 @@ public class PostControl {
         return "addPost";
     }
 
-    @PostMapping("/createPost")
-    public String createPost(@ModelAttribute Post post) {
+    @PostMapping("/addPost")
+    public String addPost(@ModelAttribute Post post) {
         store.add(post);
         return "redirect:/posts";
     }
