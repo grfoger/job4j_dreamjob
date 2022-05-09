@@ -24,13 +24,13 @@ public class PostControl {
 
     @GetMapping("/formAddPost")
     public String addPost(Model model) {
-        model.addAttribute("post", new Post(0, "Заполните поле", "", LocalDate.now()));
         return "addPost";
     }
 
     @PostMapping("/addPost")
     public String addPost(@ModelAttribute Post post) {
         store.add(post);
+        System.out.println(post.getCreated() + " POST");
         return "redirect:/posts";
     }
 

@@ -17,9 +17,9 @@ public class PostStore {
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
     private PostStore() {
-        posts.put(idCount.get(), new Post(idCount.getAndIncrement(), "Junior Java Job", "Вакансия:Младший Java разработчик", LocalDate.now()));
-        posts.put(idCount.get(), new Post(idCount.getAndIncrement(), "Middle Java Job", "Вакансия:Java разработчик", LocalDate.now()));
-        posts.put(idCount.get(), new Post(idCount.getAndIncrement(), "Senior Java Job", "Вакансия:Старший Java разработчик", LocalDate.now()));
+        posts.put(idCount.get(), new Post(idCount.getAndIncrement(), "Junior Java Job", "Вакансия:Младший Java разработчик"));
+        posts.put(idCount.get(), new Post(idCount.getAndIncrement(), "Middle Java Job", "Вакансия:Java разработчик"));
+        posts.put(idCount.get(), new Post(idCount.getAndIncrement(), "Senior Java Job", "Вакансия:Старший Java разработчик"));
     }
 
     public static PostStore instOf() {
