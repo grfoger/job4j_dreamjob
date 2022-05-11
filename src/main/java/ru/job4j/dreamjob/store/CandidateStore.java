@@ -18,9 +18,9 @@ public class CandidateStore {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     private CandidateStore() {
-        candidates.put(idCount.get(), new Candidate(idCount.getAndIncrement(), "Junior Java Job", "Кандидат:Младший Java разработчик"));
-        candidates.put(idCount.get(), new Candidate(idCount.getAndIncrement(), "Middle Java Job", "Кандидат:Java разработчик"));
-        candidates.put(idCount.get(), new Candidate(idCount.getAndIncrement(), "Senior Java Job", "Кандидат:Старший Java разработчик"));
+        candidates.put(idCount.get(), new Candidate(idCount.getAndIncrement(), "Junior Java Job", "Кандидат:Младший Java разработчик", LocalDate.now()));
+        candidates.put(idCount.get(), new Candidate(idCount.getAndIncrement(), "Middle Java Job", "Кандидат:Java разработчик", LocalDate.now()));
+        candidates.put(idCount.get(), new Candidate(idCount.getAndIncrement(), "Senior Java Job", "Кандидат:Старший Java разработчик", LocalDate.now()));
     }
 
     public static CandidateStore instOf() {
@@ -33,6 +33,7 @@ public class CandidateStore {
 
     public void add(Candidate cand) {
         cand.setId(idCount.getAndIncrement());
+        cand.setCreated(LocalDate.now());
         candidates.put(cand.getId(), cand);
     }
 

@@ -7,7 +7,7 @@ public class Candidate {
     private int id;
     private String name;
     private String description;
-    private LocalDate created = LocalDate.now();
+    private LocalDate created;
 
 
 
@@ -17,6 +17,13 @@ public class Candidate {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+    public Candidate(int id, String name, String description, LocalDate created) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.created = created;
     }
 
     public int getId() {
@@ -45,6 +52,10 @@ public class Candidate {
 
     public LocalDate getCreated() {
         return created;
+    }
+
+    public void setCreated(LocalDate created) {
+        this.created = created;
     }
 
     @Override
