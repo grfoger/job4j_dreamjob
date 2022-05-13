@@ -9,20 +9,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dreamjob.model.Candidate;
-import ru.job4j.dreamjob.model.Post;
-import ru.job4j.dreamjob.store.CandidateStore;
+import ru.job4j.dreamjob.service.CandidateService;
 
-import java.time.LocalDate;
+
 
 
 @Controller
 public class CandidateControl {
 
-    private final CandidateStore store = CandidateStore.instOf();
+    private final CandidateService service = CandidateService.instOf();
 
     @GetMapping("/candidates")
     public String candidates(Model model) {
-        model.addAttribute("candidates", store.findAll());
+        model.addAttribute("candidates", service.findAll());
         return "candidates";
     }
 
@@ -34,19 +33,19 @@ public class CandidateControl {
 
     @PostMapping("/addCandidate")
     public String addCandidate(@ModelAttribute Candidate cand) {
-        store.add(cand);
+        service.add(cand);
         return "redirect:/candidates";
     }
 
     @GetMapping("/formUpdateCandidate/{candidateId}")
     public String formUpdateCandidate(Model model, @PathVariable("candidateId") int id) {
-        model.addAttribute("candidate", store.findById(id));
+        model.addAttribute("candidate", service.findById(id));
         return "updateCandidate";
     }
 
     @PostMapping("/updateCandidate")
     public String updateCandidate(@ModelAttribute Candidate cand) {
-        store.update(cand);
+        service.update(cand);
         return "redirect:/candidates";
     }
 }
