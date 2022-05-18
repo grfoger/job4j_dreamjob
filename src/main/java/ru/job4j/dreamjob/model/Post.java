@@ -21,11 +21,12 @@ public class Post {
         this.description = description;
     }
 
-    public Post(int id, String name, String description, LocalDate created) {
+    public Post(int id, String name, String description, LocalDate created, City city) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.created = created;
+        this.city = city;
     }
 
     public int getId() {
