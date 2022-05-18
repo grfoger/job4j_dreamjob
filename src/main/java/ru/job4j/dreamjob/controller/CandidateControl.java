@@ -4,14 +4,17 @@ package ru.job4j.dreamjob.controller;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.service.CandidateService;
+import java.io.IOException;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 
 @ThreadSafe
@@ -37,7 +40,9 @@ public class CandidateControl {
     }
 
     @PostMapping("/addCandidate")
-    public String addCandidate(@ModelAttribute Candidate cand) {
+    public String addCandidate(@ModelAttribute Candidate cand,
+                               @RequestParam("file") MultipartFile file) throws IOException {
+        cand.setPhoto(file.getBytes());
         service.add(cand);
         return "redirect:/candidates";
     }
@@ -49,8 +54,20 @@ public class CandidateControl {
     }
 
     @PostMapping("/updateCandidate")
-    public String updateCandidate(@ModelAttribute Candidate cand) {
+    public String updateCandidate(@ModelAttribute Candidate cand,
+                                  @RequestParam("file") MultipartFile file) throws IOException {
+        cand.setPhoto(file.getBytes());
         service.update(cand);
         return "redirect:/candidates";
+    }
+
+    @GetMapping("/photoCandidate/{candidateId}")
+    public ResponseEntity<Resource> download(@PathVariable("candidateId") int id) {
+        Candidate candidate = service.findById(id);
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .contentLength(candidate.getPhoto().length)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new ByteArrayResource(candidate.getPhoto()));
     }
 }
