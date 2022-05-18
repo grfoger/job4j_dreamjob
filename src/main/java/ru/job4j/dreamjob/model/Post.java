@@ -9,6 +9,7 @@ public class Post {
     private String description;
     private LocalDate created;
     private boolean visible;
+    private City city;
 
 
 
@@ -67,10 +68,22 @@ public class Post {
         this.visible = visible;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Post post = (Post) o;
         return id == post.id;
     }
