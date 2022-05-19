@@ -15,6 +15,12 @@ public class Post {
 
     public Post() { }
 
+    public Post(int id, String name, City city) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+    }
+
     public Post(int id, String name, String description, City city) {
         this.id = id;
         this.name = name;
