@@ -7,3 +7,7 @@ CREATE TABLE post (
 );
 
 DROP TABLE post;
+
+DELETE FROM post;
+
+SELECT * FROM post;

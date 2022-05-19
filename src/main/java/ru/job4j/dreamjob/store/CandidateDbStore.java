@@ -2,8 +2,7 @@ package ru.job4j.dreamjob.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.stereotype.Repository;
-import ru.job4j.dreamjob.model.Post;
-import ru.job4j.dreamjob.service.CityService;
+import ru.job4j.dreamjob.model.Candidate;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,71 +13,71 @@ import java.sql.Date;
 import java.util.List;
 
 @Repository
-public class PostDbStore {
+public class CandidateDbStore {
 
     private final BasicDataSource pool;
-    private final CityService cityService;
 
-    public PostDbStore(BasicDataSource pool, CityService cityService) {
+    public CandidateDbStore(BasicDataSource pool) {
         this.pool = pool;
-        this.cityService = cityService;
     }
 
-    public List<Post> findAll() {
-        List<Post> posts = new ArrayList<>();
+    public List<Candidate> findAll() {
+        List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post")
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    posts.add(new Post(it.getInt("id"),
+                    candidates.add(new Candidate(it.getInt("id"),
                             it.getString("name"),
                             it.getString("description"),
                             it.getDate("created").toLocalDate(),
-                            cityService.findById(it.getInt("city_id"))));
+                            it.getBytes("file")));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return posts;
+        return candidates;
     }
 
 
-    public Post add(Post post) {
+    public Candidate add(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name, description, city_id, created) VALUES (?, ?, ?, ?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidate(name, description, created, file) VALUES (?, ?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
-            ps.setString(1, post.getName());
-            ps.setString(2, post.getDescription());
-            ps.setInt(3, post.getCity().getId());
-            ps.setDate(4, Date.valueOf(LocalDate.now()));
+            ps.setString(1, candidate.getName());
+            ps.setString(2, candidate.getDescription());
+            ps.setDate(3, Date.valueOf(LocalDate.now()));
+            ps.setBytes(4, candidate.getPhoto());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
-                    post.setId(id.getInt(1));
+                    candidate.setId(id.getInt(1));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return post;
+        return candidate;
     }
 
-    public void update(Post post) {
+
+
+    public void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE post SET name = ?, description = ?, city_id = ? WHERE id = ?",
+             PreparedStatement ps =  cn.prepareStatement("UPDATE candidate SET name = ?, description = ?, file = ? WHERE id = ?",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
-            ps.setString(1, post.getName());
-            ps.setString(2, post.getDescription());
-            ps.setInt(3, post.getCity().getId());
-            ps.setInt(4, post.getId());
+            ps.setString(1, candidate.getName());
+            ps.setString(2, candidate.getDescription());
+            ps.setBytes(3, candidate.getPhoto());
+            ps.setInt(4, candidate.getId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
-                    post.setId(id.getInt(1));
+                    candidate.setId(id.getInt(1));
                 }
             }
         } catch (Exception e) {
@@ -86,18 +85,18 @@ public class PostDbStore {
         }
     }
 
-    public Post findById(int id) {
+    public Candidate findById(int id) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post WHERE id = ?")
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate WHERE id = ?")
         ) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Post(it.getInt("id"),
+                    return new Candidate(it.getInt("id"),
                             it.getString("name"),
                             it.getString("description"),
                             it.getDate("created").toLocalDate(),
-                            cityService.findById(it.getInt("city_id")));
+                            it.getBytes("file"));
                 }
             }
         } catch (Exception e) {
