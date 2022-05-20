@@ -6,8 +6,10 @@ CREATE TABLE post (
                       created DATE
 );
 
-DROP TABLE post;
-
-DELETE FROM post;
-
-SELECT * FROM post;
+CREATE TABLE candidate (
+                           id SERIAL PRIMARY KEY,
+                           name TEXT,
+                           description TEXT,
+                           created DATE,
+                           file BYTEA
+);
