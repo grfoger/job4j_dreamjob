@@ -104,4 +104,14 @@ public class CandidateDbStore {
         }
         return null;
     }
+
+    public void baseClean() {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("DELETE FROM candidate")
+        ) {
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
