@@ -21,6 +21,12 @@ public class UserControl {
         this.userService = userService;
     }
 
+    @GetMapping("/formRegistration")
+    public String formRegistration(Model model) {
+        model.addAttribute("user", new User());
+        return "registration";
+    }
+
     @PostMapping("/registration")
     public String registration(Model model, @ModelAttribute User user) {
         Optional<User> regUser = userService.add(user);
