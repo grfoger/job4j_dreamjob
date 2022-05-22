@@ -10,6 +10,7 @@ import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 
@@ -35,6 +36,8 @@ public class UserDbStore {
                     user.setId(id.getInt(1));
                 }
             }
+        } catch (SQLException e) {
+            return Optional.empty();
         } catch (Exception e) {
             e.printStackTrace();
         }
