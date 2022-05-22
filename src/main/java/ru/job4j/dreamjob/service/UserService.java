@@ -18,4 +18,12 @@ public class UserService {
     public Optional<User> add(User user) {
         return userStore.add(user);
     }
+
+    public Optional<User> findUserByEmailAndPass(String email, String password) {
+        Optional<User> userDb = userStore.findUserBy(email);
+        if (userDb.isPresent() && !password.equals(userDb.get().getPassword())) {
+            return Optional.empty();
+        }
+        return userDb;
+    }
 }
