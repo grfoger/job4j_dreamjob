@@ -16,6 +16,6 @@ public class UserService {
     }
 
     public Optional<User> add(User user) {
-        return Optional.of(userStore.add(user));
+        return userStore.add(user);
     }
 }

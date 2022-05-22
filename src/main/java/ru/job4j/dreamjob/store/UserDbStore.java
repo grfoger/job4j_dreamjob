@@ -8,6 +8,7 @@ import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Optional;
 
 
 @Repository
@@ -19,7 +20,7 @@ public class UserDbStore {
         this.pool = pool;
     }
 
-    public User add(User user) {
+    public Optional<User> add(User user) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("INSERT INTO users(email, password) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
@@ -35,6 +36,6 @@ public class UserDbStore {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return user;
+        return Optional.of(user);
     }
 }
