@@ -46,9 +46,10 @@ public class PostControl {
     }
 
     @GetMapping("/formAddPost")
-    public String addPost(Model model) {
+    public String addPost(Model model, HttpSession session) {
         model.addAttribute("post", new Post(0, "", "", new City(0, "")));
         model.addAttribute("cities", cityService.getAllCities());
+        model.addAttribute("user", getSessionUser(session));
         return "addPost";
     }
     @PostMapping("/addPost")

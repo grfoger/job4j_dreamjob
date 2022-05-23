@@ -47,8 +47,9 @@ public class CandidateControl {
     }
 
     @GetMapping("/formAddCandidate")
-    public String addCandidate(Model model) {
+    public String addCandidate(Model model, HttpSession session) {
         model.addAttribute("candidate", new Candidate(0, "", ""));
+        model.addAttribute("user", getSessionUser(session));
         return "addCandidate";
     }
 

@@ -34,8 +34,8 @@ public class UserControl {
     }
 
     @GetMapping("/formRegistration")
-    public String formRegistration(Model model, @RequestParam(name = "fail", required = false) Boolean fail) {
-        model.addAttribute("user", new User());
+    public String formRegistration(Model model, @RequestParam(name = "fail", required = false) Boolean fail, HttpSession session) {
+        model.addAttribute("user", getSessionUser(session));
         model.addAttribute("fail", fail != null);
         return "registration";
     }
@@ -57,8 +57,9 @@ public class UserControl {
     }
 
     @GetMapping("/loginPage")
-    public String loginPage(Model model, @RequestParam(name = "fail", required = false) Boolean fail) {
+    public String loginPage(Model model, @RequestParam(name = "fail", required = false) Boolean fail, HttpSession session) {
         model.addAttribute("fail", fail != null);
+        model.addAttribute("user", getSessionUser(session));
         return "login";
     }
 
