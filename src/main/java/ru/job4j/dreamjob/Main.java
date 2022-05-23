@@ -13,7 +13,6 @@ import java.util.Properties;
 @ThreadSafe
 @SpringBootApplication
 public class Main {
-
     private Properties loadDbProperties() {
         Properties cfg = new Properties();
         try (BufferedReader io = new BufferedReader(
